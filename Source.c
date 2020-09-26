@@ -70,7 +70,23 @@ void main()
 			}
 			else if (strcmp(action, "Donate") == 0 || strcmp(action, "donate") == 0)
 			{
-				donate();
+				int counter = 0;
+				person* tmp = headp;
+				while (tmp!=NULL) 
+				{
+					counter++;
+					tmp = tmp->next;
+				}
+				if (counter<=200)				//ean oi dwrees einai ligoteres apo 200
+				{
+					donate();
+				}
+				else 
+				{
+					printf("Donations limit reached.\n");
+					printf("Press any key to continue.\n");
+					getch();
+				}
 			}
 			else
 			{
@@ -746,42 +762,86 @@ void ecocheck()
 
 void sort()
 {
-	int swapped, i;
+	int swapped, i, option;
 	person* ptr1, * ptr2;
 	person* lptr = NULL;
 
-	do
+	printf("If you want sorting with final donation amount enter 1.\nIf you want sorting by gender enter 2.\n");
+	scanf("%d", &option);
+	if (option==1) 
 	{
-		swapped = 0;
-		ptr1 = headp;
-
-		while (ptr1->next != lptr)
+		do
 		{
-			if (ptr1->final_amount < ptr1->next->final_amount)
-			{
-				swap(ptr1, ptr1->next);
-				swapped = 1;
-			}
-			ptr1 = ptr1->next;
-		}
-		lptr = ptr1;
-	} while (swapped);
+			swapped = 0;
+			ptr1 = headp;
 
-	ptr2 = headp;
-	while (ptr2 != NULL)
+			while (ptr1->next != lptr)
+			{
+				if (ptr1->final_amount < ptr1->next->final_amount)
+				{
+					swap(ptr1, ptr1->next);
+					swapped = 1;
+				}
+				ptr1 = ptr1->next;
+			}
+			lptr = ptr1;
+		} while (swapped);
+
+		ptr2 = headp;
+		while (ptr2 != NULL)
+		{
+			printf("First name: %s\n", ptr2->firstName);
+			printf("Last name: %s\n", ptr2->lastName);
+			printf("Birthday: %d\n", ptr2->birth);
+			printf("Gender: %c\n", ptr2->gender);
+			printf("ID: %d\n", ptr2->id);
+			printf("Final donation amount: %lf\n", ptr2->final_amount);
+			printf("\n");
+			ptr2 = ptr2->next;
+		}
+
+		printf("Sorted by final dontaion amount.\n");
+		printf("Press any key to continue.");
+		getch();
+	}
+	else if (option==2) 
 	{
-		printf("First name: %s\n", ptr2->firstName);
-		printf("Last name: %s\n", ptr2->lastName);
-		printf("Birthday: %d\n", ptr2->birth);
-		printf("Gender: %c\n", ptr2->gender);
-		printf("ID: %d\n", ptr2->id);
-		printf("Final donation amount: %lf\n", ptr2->final_amount);
-		printf("\n");
-		ptr2 = ptr2->next;
+		do
+		{
+			swapped = 0;
+			ptr1 = headp;
+
+			while (ptr1->next != lptr)
+			{
+				if (ptr1->gender < ptr1->next->gender )
+				{
+					swap(ptr1, ptr1->next);
+					swapped = 1;
+				}
+				ptr1 = ptr1->next;
+			}
+			lptr = ptr1;
+		} while (swapped);
+
+		ptr2 = headp;
+		while (ptr2 != NULL)
+		{
+			printf("First name: %s\n", ptr2->firstName);
+			printf("Last name: %s\n", ptr2->lastName);
+			printf("Birthday: %d\n", ptr2->birth);
+			printf("Gender: %c\n", ptr2->gender);
+			printf("ID: %d\n", ptr2->id);
+			printf("Final donation amount: %lf\n", ptr2->final_amount);
+			printf("\n");
+			ptr2 = ptr2->next;
+		}
+
+		printf("Sorted by gender.\n");
+		printf("Press any key to continue.");
+		getch();
 	}
 
-	printf("Press any key to continue.");
-	getch();
+
 
 }
 
@@ -823,3 +883,4 @@ void swap(person* a, person* b)
 	a->id = b->id;
 	b->id = temp;
 }
+
